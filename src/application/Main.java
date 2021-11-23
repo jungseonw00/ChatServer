@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-	public static ExecutorService threadPool; //여러개의 쓰레드를 효율적으로 관리하기 위해 쓰는 것.
+	//여러개의 쓰레드를 효율적으로 관리하기 위해 쓰는 것.
+	public static ExecutorService threadPool; 
 	public static Vector<Client> clients = new Vector<Client>(); 
 	
 	ServerSocket serverSocket;
@@ -84,17 +85,17 @@ public class Main extends Application {
 		}
 	}
 	
+	// 메인 메소드(launch)를 실행하면 start를 실행
 	// UI를 생성하고, 실질적으로 프로그램을 동작시키는 메소드입니다.
 	@Override
 	public void start(Stage primaryStage) {
-		BorderPane root = new BorderPane();
+		//레이아웃 잡아주는 것(판넬)
+		BorderPane root = new BorderPane(); 
 		root.setPadding(new Insets(5));
-		
 		TextArea textArea = new TextArea();
 		textArea.setEditable(false);
 		textArea.setFont(new Font("나눔고딕", 15));
 		root.setCenter(textArea);
-		
 		Button toggleButton = new Button("시작하기");
 		toggleButton.setMaxWidth(Double.MAX_VALUE);
 		BorderPane.setMargin(toggleButton, new Insets(1, 0, 0, 0));
@@ -103,15 +104,17 @@ public class Main extends Application {
 		String IP = "127.0.0.1";
 		int port = 9876;
 		
+		//버튼을 누를 경우 실행되는 내용
 		toggleButton.setOnAction(event -> {
-			if(toggleButton.getText().equals("시작하기")) {
+			if(toggleButton.getText().equals("시작하기")) { // toggle 버튼 텍스트가 시작하기일 경우
 				startServer(IP, port);
+				//runLater의 정확한 의미는 API문서를 봐야하지만 대충 나중에 실행한다로 생각.
 				Platform.runLater(() -> {
 					String message = String.format("[서버 시작]\n", IP, port);
-					textArea.appendText(message);
-					toggleButton.setText("종료하기");
+					textArea.appendText(message);	// Server단 textarea에 보여주는 것
+					toggleButton.setText("종료하기");	// 버튼 만들기.
 			});
-		} else {
+		} else { // 아닐경우
 			stopServer();
 			Platform.runLater(() -> {
 				String message = String.format("[서버 종료]\n", IP, port);
@@ -130,6 +133,7 @@ public class Main extends Application {
 	
 	// 프로그램의 진입점입니다.
 	public static void main(String[] args) {
+		//자동으로 실행
 		launch(args);
 	}
 }
