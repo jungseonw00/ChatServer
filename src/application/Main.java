@@ -31,7 +31,8 @@ public class Main extends Application {
 	public void startServer(String IP, int port) {
 		try {
 			serverSocket = new ServerSocket();
-			serverSocket.bind(new InetSocketAddress(IP, port));
+			//특정 IP로만 연결을 수락하고 싶을 때
+			serverSocket.bind(new InetSocketAddress(IP, port)); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			if(!serverSocket.isClosed()) {
